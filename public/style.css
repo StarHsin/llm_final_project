@@ -1,0 +1,199 @@
+/* 基礎重設 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #B5B5B5; /* 整體背景大環境的灰色 */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 主容器 */
+.app-container {
+    width: 1200px;
+    height: 750px;
+    background-color: #D3D3D3; /* 畫布外圍的亮灰色 */
+    border-radius: 24px;
+    display: flex;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* 左側面板 */
+.left-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-right: 20px;
+}
+
+.art-header {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.main-title {
+    font-size: 32px;
+    font-style: italic;
+    font-weight: 300;
+    color: #222;
+}
+
+.sub-title {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #555;
+    text-transform: uppercase;
+}
+
+/* 畫布本體 */
+.canvas-container {
+    flex: 1;
+    background-color: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: inset 0 4px 10px rgba(0,0,0,0.05);
+}
+
+#paintCanvas {
+    display: block;
+    cursor: crosshair;
+    background-color: #ffffff;
+}
+
+/* 右側工具面板 */
+.right-panel {
+    width: 320px;
+    background-color: #E2E2E2;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tool-section {
+    background: #F0F0F0;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.section-label {
+    font-size: 14px;
+    color: #666;
+    display: block;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+/* 3x2 工具格子 */
+.grid-3x2 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.icon-btn {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.icon-btn:hover, .icon-btn.active {
+    background: #D1E8FF;
+    border-color: #4A90E2;
+}
+
+/* 調色盤 */
+.color-palette {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 5px;
+}
+
+.color-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.color-dot:hover {
+    transform: scale(1.2);
+}
+
+/* 畫名與靈感輸入區 */
+.meta-section {
+    background: #60665B; /* 3號設計底部的深綠灰色框 */
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.input-group label {
+    font-size: 12px;
+    color: #EAEAEA;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.input-group input, .input-group textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px;
+    padding: 8px;
+    color: white;
+    font-size: 14px;
+}
+
+.input-group textarea {
+    height: 80px;
+    resize: none;
+}
+
+/* 按鈕 */
+.action-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+}
+
+.btn.primary {
+    background-color: #333;
+    color: white;
+}
+
+.btn.secondary {
+    background-color: #bbb;
+    color: #333;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
