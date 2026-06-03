@@ -1,31 +1,104 @@
-/* 基礎重設 */
+/* 基礎樣式重設 */
 * {
+    box-shadow: none;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Noto Sans TC', sans-serif;
 }
 
 body {
-    background-color: #B5B5B5; /* 整體背景大環境的灰色 */
+    background-color: #B5B5B5; /* 外圍深灰色大底 */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* 顯示隱藏控制器 */
+.hidden {
+    display: none !important;
+}
+
+/* ================= 歡迎首頁視覺 (奶黃色卡片) ================= */
+.full-screen-page {
+    width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* 主容器 */
+.welcome-card {
+    background-color: #FFF3C4; /* 3號同學指定的溫暖奶黃 */
+    width: 700px;
+    padding: 40px;
+    border-radius: 40px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.welcome-title {
+    font-size: 38px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.highlight {
+    font-size: 46px;
+    color: #7D0A0A;
+}
+
+.welcome-subtitle {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 40px;
+}
+
+.steps-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 40px;
+}
+
+.step-item {
+    flex: 1;
+}
+
+.step-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.go-btn {
+    background-color: #757575;
+    color: white;
+    border: none;
+    padding: 15px 50px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.go-btn:hover {
+    background-color: #444;
+}
+
+/* ================= 主小畫家面板配置 ================= */
 .app-container {
-    width: 1200px;
-    height: 750px;
-    background-color: #D3D3D3; /* 畫布外圍的亮灰色 */
+    width: 1150px;
+    height: 700px;
+    background-color: #D3D3D3; /* 淺灰色工作艙 */
     border-radius: 24px;
     display: flex;
     padding: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
 }
 
-/* 左側面板 */
 .left-panel {
     flex: 1;
     display: flex;
@@ -34,25 +107,23 @@ body {
 }
 
 .art-header {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
 .main-title {
-    font-size: 32px;
+    font-size: 28px;
     font-style: italic;
+    color: #111;
     font-weight: 300;
-    color: #222;
 }
 
 .sub-title {
-    font-size: 12px;
-    letter-spacing: 2px;
-    color: #555;
-    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #444;
 }
 
-/* 畫布本體 */
 .canvas-container {
     flex: 1;
     background-color: white;
@@ -64,61 +135,59 @@ body {
 #paintCanvas {
     display: block;
     cursor: crosshair;
-    background-color: #ffffff;
+    background-color: #FFFFFF;
 }
 
-/* 右側工具面板 */
+/* ================= 右側工具欄面板 ================= */
 .right-panel {
-    width: 320px;
+    width: 300px;
     background-color: #E2E2E2;
     border-radius: 20px;
-    padding: 20px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
 }
 
 .tool-section {
     background: #F0F0F0;
-    padding: 12px;
+    padding: 10px;
     border-radius: 12px;
+    margin-bottom: 12px;
 }
 
 .section-label {
-    font-size: 14px;
+    font-size: 13px;
     color: #666;
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     text-align: center;
 }
 
-/* 3x2 工具格子 */
 .grid-3x2 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    gap: 5px;
 }
 
 .icon-btn {
     background: white;
     border: 1px solid #ccc;
-    padding: 10px;
-    font-size: 18px;
-    border-radius: 8px;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: 0.2s;
 }
 
-.icon-btn:hover, .icon-btn.active {
+.icon-btn.active {
     background: #D1E8FF;
     border-color: #4A90E2;
 }
 
-/* 調色盤 */
+/* 色彩群組與彩虹按鈕 */
 .color-palette {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-    gap: 5px;
+    gap: 4px;
 }
 
 .color-dot {
@@ -127,73 +196,126 @@ body {
     border-radius: 50%;
     border: none;
     cursor: pointer;
-    transition: transform 0.1s;
 }
 
-.color-dot:hover {
-    transform: scale(1.2);
+.custom-color-wrapper {
+    position: relative;
+    display: inline-block;
 }
 
-/* 畫名與靈感輸入區 */
+.rainbow-icon {
+    background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+    border: 1px solid #ccc;
+}
+
+#colorPicker {
+    position: absolute;
+    top: 0; left: 0; width: 22px; height: 22px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* 底部深色填資料欄 */
 .meta-section {
-    background: #60665B; /* 3號設計底部的深綠灰色框 */
-    padding: 15px;
+    background: #60665B; /* 3號同學指定的質雅深綠灰 */
+    padding: 12px;
     border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    margin-bottom: 12px;
 }
 
 .input-group label {
-    font-size: 12px;
-    color: #EAEAEA;
+    font-size: 11px;
+    color: #FFF;
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 
 .input-group input, .input-group textarea {
     width: 100%;
-    background: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.2);
     border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 6px;
-    padding: 8px;
+    border-radius: 4px;
+    padding: 6px;
     color: white;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .input-group textarea {
-    height: 80px;
+    height: 50px;
     resize: none;
 }
 
-/* 按鈕 */
 .action-section {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-top: auto;
+    gap: 6px;
 }
 
 .btn {
     width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 16px;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     border: none;
 }
 
-.btn.primary {
-    background-color: #333;
-    color: white;
+.btn.primary { background-color: #000; color: white; }
+.btn.secondary { background-color: #bbb; color: #111; }
+
+/* ================= 藝術史等待彈窗 (Loading 動畫) ================= */
+.loading-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
 }
 
-.btn.secondary {
-    background-color: #bbb;
+.loading-card {
+    background: #FFF;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.spinner {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #E67E22;
+    border-radius: 50%;
+    width: 50px; height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto 0;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ================= 咖啡廳菜單風結果頁配置 ================= */
+.result-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.result-main-title {
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+.result-scroll-box {
+    flex: 1;
+    overflow-y: auto;
+    background: #EAEAEA;
+    padding: 12px;
+    border-radius: 8px;
     color: #333;
-}
-
-.btn:hover {
-    opacity: 0.9;
 }
