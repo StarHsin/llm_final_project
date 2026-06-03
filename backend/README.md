@@ -2,9 +2,9 @@
 
 ## 功能摘要
 
-本後端目前已串接 Google Gemini API，使用官方 Python SDK `google-genai` 呼叫文字生成模型。主要入口是 `main.py` 內的 `generate_text(prompt: str)`，可在 CLI 測試，也可被其他 Python 程式重用。
+本後端目前已串接 Google Gemini API，使用官方 Python SDK `google-genai` 呼叫文字生成模型與圖片理解模型。主要入口是 `main.py` 內的 `generate_text(prompt: str)` 與 `analyze_image(image_path, prompt)`，可在 CLI 測試，也可被其他 Python 程式重用。
 
-目前主模型使用 `gemini-3.5-flash`，並加入模型備援機制，讓主要模型發生 API 錯誤、模型不可用、rate limit 或暫時性服務問題時，可以自動改試下一個模型。
+目前主模型使用 `gemini-3.5-flash`，並加入模型備援機制，讓主要模型發生 API 錯誤、模型不可用、rate limit 或暫時性服務問題時，可以自動改試下一個模型。圖片分析使用 Gemini 的 image understanding 能力，將本機圖片 bytes 以 inline data 傳入模型。
 
 ## 使用套件
 
@@ -65,6 +65,39 @@ Gemini model fallback is an automated reliability feature that switches an appli
 
 上方的 `Model` 代表實際成功回覆的模型。如果顯示 `gemini-3.5-flash`，表示第一順位模型成功，沒有啟動備援。
 
+## 圖片分析
+
+可以使用 `--image` 或 `-i` 傳入本機圖片路徑：
+
+```powershell
+uv run main.py --image ./sample.jpg "請描述並分析這張圖片"
+```
+
+若圖片模式沒有提供 prompt，會使用預設問題：
+
+```powershell
+uv run main.py --image ./sample.jpg
+```
+
+預設 prompt 為：「請用繁體中文描述並分析這張圖片。」
+
+支援圖片格式：
+
+- JPEG / JPG
+- PNG
+- WEBP
+- HEIC
+- HEIF
+
+成功時會看到類似輸出：
+
+```text
+Model: gemini-3.5-flash
+這張圖片中可以看到......整體來看......
+```
+
+第一版圖片分析採用一般問答模式，使用者可以自行決定 prompt，例如描述圖片、辨識畫面內容、摘要重點、分析圖表或詢問圖片中的細節。
+
 ## 程式介面
 
 其他 Python 程式可以重用 `generate_text()`：
@@ -83,12 +116,24 @@ print(result.text)
 - `text`：Gemini 回覆文字。
 - `model`：實際成功使用的模型名稱。
 
+圖片分析可以重用 `analyze_image()`：
+
+```python
+from main import analyze_image
+
+result = analyze_image("./sample.jpg", "請用繁體中文分析這張圖片")
+
+print(result.model)
+print(result.text)
+```
+
 ## 錯誤處理
 
 目前處理以下錯誤情境：
 
 - 缺少 `GEMINI_API_KEY` 或仍使用占位值時，丟出 `GeminiConfigurationError`。
-- prompt 為空字串時，丟出 `ValueError`。
+- prompt 為空字串時，丟出 `GeminiInputError`。
+- 圖片不存在、路徑不是檔案、或圖片格式不支援時，丟出 `GeminiInputError`。
 - 所有模型都呼叫失敗時，丟出 `GeminiGenerationError`，並列出各模型失敗原因。
 
 CLI 模式下會將錯誤印到 stderr，並以 exit code `1` 結束。
@@ -99,5 +144,6 @@ CLI 模式下會將錯誤印到 stderr，並以 exit code `1` 結束。
 - 系統採用 `gemini-3.5-flash` 作為主要模型，兼顧速度與成本。
 - 為提升穩定性，實作模型 fallback 機制，當主模型失敗時會依序改用 `gemini-2.5-pro` 與 `gemini-2.5-flash`。
 - API key 透過 `.env` 管理，避免將敏感資訊寫死在程式碼中。
-- `generate_text()` 被設計成可重用函式，未來可直接接到 FastAPI endpoint、前端服務或其他後端流程。
+- `generate_text()` 與 `analyze_image()` 被設計成可重用函式，未來可直接接到 FastAPI endpoint、前端服務或其他後端流程。
+- 圖片分析功能支援本機圖片路徑輸入，透過 `types.Part.from_bytes()` 將圖片資料傳給 Gemini 進行理解與問答。
 - CLI smoke test 可快速驗證 Gemini API key、SDK 依賴與模型回覆是否正常。
