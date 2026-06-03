@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>藝術科普小畫坊</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="page-welcome" class="full-screen-page">
+        <div class="welcome-card">
+            <h1 class="welcome-title">歡迎來到<br><span class="highlight">藝術科普小畫坊</span></h1>
+            <p class="welcome-subtitle">透過創作與藝術歷史產生連結</p>
+            
+            <div class="steps-container">
+                <div class="step-item">
+                    <div class="step-icon">✏️</div>
+                    <p>1. 畫下一幅畫</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-icon">🤖</div>
+                    <p>2. AI 分析相似風格</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-icon">🔍</div>
+                    <p>3. 風格派系知識科普</p>
+                </div>
+            </div>
+            
+            <button id="startBtn" class="go-btn">現在就開始</button>
+        </div>
+    </div>
+
+    <div id="page-main" class="app-container hidden">
+        
+        <div class="left-panel">
+            <header class="art-header">
+                <h1 class="main-title">creative space</h1>
+                <p class="sub-title">A GREAT MASTERPIECE IS ABOUT TO BE BORN.</p>
+            </header>
+            
+            <div class="canvas-container">
+                <canvas id="paintCanvas" width="700" height="520"></canvas>
+            </div>
+        </div>
+
+        <aside class="right-panel">
+            
+            <div id="sub-tools">
+                <div class="tool-section">
+                    <span class="section-label">工具</span>
+                    <div class="grid-3x2">
+                        <button id="tool-pencil" class="icon-btn active" title="畫筆">✏️</button>
+                        <button id="tool-bucket" class="icon-btn" title="油漆桶">🪣</button>
+                        <button id="tool-text" class="icon-btn" title="文字">A</button>
+                        <button id="tool-eraser" class="icon-btn" title="橡皮擦">🧼</button>
+                        <button id="tool-picker" class="icon-btn" title="吸色滴管">🧪</button>
+                        <button id="tool-zoom" class="icon-btn" title="放大鏡">🔍</button>
+                    </div>
+                </div>
+
+                <div class="tool-section">
+                    <span class="section-label">色彩</span>
+                    <div class="color-palette">
+                        <button class="color-dot" style="background: #333333;" data-color="#333333"></button>
+                        <button class="color-dot" style="background: #8B0000;" data-color="#8B0000"></button>
+                        <button class="color-dot" style="background: #FF0000;" data-color="#FF0000"></button>
+                        <button class="color-dot" style="background: #FF7F00;" data-color="#FF7F00"></button>
+                        <button class="color-dot" style="background: #FFFF00;" data-color="#FFFF00"></button>
+                        <button class="color-dot" style="background: #00FF00;" data-color="#00FF00"></button>
+                        <button class="color-dot" style="background: #00FFFF;" data-color="#00FFFF"></button>
+                        <button class="color-dot" style="background: #0000FF;" data-color="#0000FF"></button>
+                        <button class="color-dot" style="background: #8B008B;" data-color="#8B008B"></button>
+                        <button class="color-dot" style="background: #FFFFFF; border: 1px solid #ccc;" data-color="#FFFFFF"></button>
+                        <button class="color-dot" style="background: #D2B48C;" data-color="#D2B48C"></button>
+                        <button class="color-dot" style="background: #FFC0CB;" data-color="#FFC0CB"></button>
+                        <button class="color-dot" style="background: #FFE4B5;" data-color="#FFE4B5"></button>
+                        <button class="color-dot" style="background: #FFFFE0;" data-color="#FFFFE0"></button>
+                        <button class="color-dot" style="background: #90EE90;" data-color="#90EE90"></button>
+                        <button class="color-dot" style="background: #E0FFFF;" data-color="#E0FFFF"></button>
+                        <button class="color-dot" style="background: #B0C4DE;" data-color="#B0C4DE"></button>
+                        
+                        <div class="custom-color-wrapper">
+                            <button id="rainbowBtn" class="color-dot rainbow-icon" title="自訂色彩"></button>
+                            <input type="color" id="colorPicker" value="#000000">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="meta-section">
+                    <div class="input-group">
+                        <label>為這幅創作取個名字！</label>
+                        <input type="text" id="artTitle" placeholder="輸入畫名...">
+                    </div>
+                    <div class="input-group">
+                        <label>創作靈感</label>
+                        <textarea id="artInspiration" placeholder="寫下你的靈感..."></textarea>
+                    </div>
+                </div>
+
+                <div class="action-section">
+                    <button id="clearBtn" class="btn secondary">清除畫布</button>
+                    <button id="analyzeBtn" class="btn primary">分析我的畫風</button>
+                </div>
+            </div>
+
+            <div id="sub-results" class="hidden">
+                <div id="dynamic-json-content"></div>
+            </div>
+
+        </aside>
+    </div>
+
+    <div id="page-loading" class="loading-overlay hidden">
+        <div class="loading-card">
+            <h2>藝術史和你的連結正在產生</h2>
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+</body>
+</html>
