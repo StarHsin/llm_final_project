@@ -5,11 +5,15 @@ import json
 import mimetypes
 import os
 import sys
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
 
 from dotenv import load_dotenv
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from google import genai
 from google.genai import types
 
@@ -64,6 +68,15 @@ ARTWORK_JSON_FIELDS = (
     "art_knowledge",
     "artist_quote",
 )
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+STATIC_FILES = {
+    "/": PROJECT_ROOT / "index.html",
+    "/index.html": PROJECT_ROOT / "index.html",
+    "/script.js": PROJECT_ROOT / "script.js",
+    "/style.css": PROJECT_ROOT / "style.css",
+    "/image_da4752.png": PROJECT_ROOT / "image_da4752.png",
+    "/image_da4773.png": PROJECT_ROOT / "image_da4773.png",
+}
 
 
 class GeminiConfigurationError(RuntimeError):
@@ -279,6 +292,70 @@ def analyze_artwork(
         config=config,
         validate_text=_validate_artwork_json,
     )
+
+
+app = FastAPI(title="Artwork Analysis API")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["null"],
+    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["*"],
+)
+
+
+@app.post("/api/analyze-artwork")
+async def analyze_artwork_api(
+    image: UploadFile = File(...),
+    title: str = Form("無題"),
+    mood: str = Form(""),
+) -> dict[str, Any]:
+    content_type = (image.content_type or "").split(";")[0].strip().lower()
+    if content_type not in {"image/png", "image/jpeg"}:
+        raise HTTPException(
+            status_code=400,
+            detail="Only PNG and JPEG artwork images are supported.",
+        )
+
+    image_bytes = await image.read()
+    if not image_bytes:
+        raise HTTPException(status_code=400, detail="Uploaded artwork image is empty.")
+
+    suffix = ".jpg" if content_type == "image/jpeg" else ".png"
+    temp_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as temp_file:
+            temp_file.write(image_bytes)
+            temp_path = Path(temp_file.name)
+
+        result = analyze_artwork(temp_path, title.strip() or "無題", mood.strip() or None)
+        return {
+            "model": result.model,
+            "analysis": json.loads(result.text),
+        }
+    except GeminiInputError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except GeminiConfigurationError as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+    except GeminiGenerationError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    except json.JSONDecodeError as exc:
+        raise HTTPException(status_code=502, detail="AI returned invalid JSON.") from exc
+    finally:
+        if temp_path and temp_path.exists():
+            temp_path.unlink()
+
+
+def _static_file_response(request: Request) -> FileResponse:
+    file_path = STATIC_FILES[request.url.path]
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail="Static file not found.")
+
+    return FileResponse(file_path)
+
+
+for static_path in STATIC_FILES:
+    app.get(static_path, include_in_schema=False)(_static_file_response)
 
 
 def _parse_args() -> argparse.Namespace:

@@ -140,8 +140,8 @@
                         <input type="text" id="art-title" class="dark-input" placeholder="請輸入作品名稱...">
                     </div>
                     <div class="meta-field">
-                        <label>創作靈感</label>
-                        <textarea id="art-inspiration" class="dark-textarea" placeholder="寫下你的創作想法..."></textarea>
+                        <label>創作心情（選填）</label>
+                        <textarea id="art-inspiration" class="dark-textarea" placeholder="寫下你創作當下的心情..."></textarea>
                     </div>
                     
                     <button class="submit-to-ai-btn" id="submit-btn">分析我的作品</button>
@@ -183,13 +183,25 @@
                         <span class="report-value" id="res-style">巴洛克風格 (Baroque)</span>
                     </div>
                     <div class="report-field">
+                        <span class="report-label">時代背景：</span>
+                        <span class="report-value" id="res-era">載入中...</span>
+                    </div>
+                    <div class="report-field">
                         <span class="report-label">精神大師：</span>
                         <span class="report-value" id="res-master">林布蘭 / 卡拉瓦喬</span>
                     </div>
                     
                     <div class="report-field-block">
-                        <span class="report-label">深層科普歷史介紹：</span>
+                        <span class="report-label">策展評論：</span>
+                        <p class="report-text-p" id="res-review">載入中...</p>
+                    </div>
+                    <div class="report-field-block">
+                        <span class="report-label">流派小知識：</span>
                         <p class="report-text-p" id="res-history">載入中...</p>
+                    </div>
+                    <div class="report-field-block">
+                        <span class="report-label">藝術家名言：</span>
+                        <p class="report-text-p" id="res-quote">載入中...</p>
                     </div>
                 </div>
 

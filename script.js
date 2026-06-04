@@ -216,17 +216,82 @@ document.addEventListener("DOMContentLoaded", () => {
     startBtn.addEventListener('click', () => { pageHome.classList.add('hidden'); pageCanvas.classList.remove('hidden'); });
     backHomeBtn.addEventListener('click', () => { pageCanvas.classList.add('hidden'); pageHome.classList.remove('hidden'); });
 
-    submitBtn.addEventListener('click', () => {
-        const inputTitle = document.getElementById('art-title').value.trim();
-        document.getElementById('display-art-title').innerText = inputTitle ? `《${inputTitle}》` : "《無題》";
+    function getApiBaseUrl() {
+        return window.location.protocol === 'file:' ? 'http://127.0.0.1:8000' : '';
+    }
+
+    function canvasToBlob(sourceCanvas) {
+        return new Promise((resolve, reject) => {
+            sourceCanvas.toBlob(blob => {
+                if (blob) {
+                    resolve(blob);
+                } else {
+                    reject(new Error('無法將畫布轉換成圖片，請再試一次。'));
+                }
+            }, 'image/png');
+        });
+    }
+
+    function formatMasters(masters) {
+        if (!Array.isArray(masters) || masters.length === 0) return '未提供';
+        return masters
+            .map(master => {
+                const name = master?.name || '未知藝術家';
+                const work = master?.famous_work ? `（${master.famous_work}）` : '';
+                return `${name}${work}`;
+            })
+            .join(' / ');
+    }
+
+    function renderAnalysisResult(analysis) {
+        document.getElementById('res-style').innerText = analysis.style_name || '未提供';
+        document.getElementById('res-era').innerText = analysis.era || '未提供';
+        document.getElementById('res-master').innerText = formatMasters(analysis.masters);
+        document.getElementById('res-review').innerText = analysis.curator_review || '未提供';
+        document.getElementById('res-history').innerText = analysis.art_knowledge || '未提供';
+        document.getElementById('res-quote').innerText = analysis.artist_quote || '未提供';
+    }
+
+    async function submitArtworkForAnalysis() {
+        const inputTitle = document.getElementById('art-title').value.trim() || '無題';
+        const inputMood = document.getElementById('art-inspiration').value.trim();
+
+        document.getElementById('display-art-title').innerText = `《${inputTitle}》`;
         pageLoading.classList.remove('hidden');
-        cloneCtx.putImageData(ctx.getImageData(0, 0, canvas.width, canvas.height), 0, 0);
-        setTimeout(() => {
-            pageLoading.classList.add('hidden'); pageCanvas.classList.add('hidden'); pageResult.classList.remove('hidden');
-            document.getElementById('res-style').innerText = "現代野獸主義";
-            document.getElementById('res-history').innerText = "分析成功！你的作品線條奔放、細節處理極富主觀色彩，這正是20世紀初野獸派大師們追求的藝術解放！";
-        }, 1800);
-    });
+        submitBtn.disabled = true;
+        submitBtn.innerText = '分析中...';
+
+        try {
+            cloneCtx.putImageData(ctx.getImageData(0, 0, canvas.width, canvas.height), 0, 0);
+            const artworkBlob = await canvasToBlob(canvas);
+            const formData = new FormData();
+            formData.append('image', artworkBlob, 'artwork.png');
+            formData.append('title', inputTitle);
+            formData.append('mood', inputMood);
+
+            const response = await fetch(`${getApiBaseUrl()}/api/analyze-artwork`, {
+                method: 'POST',
+                body: formData,
+            });
+            const payload = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(payload.detail || '後端分析失敗，請稍後再試。');
+            }
+
+            renderAnalysisResult(payload.analysis || {});
+            pageCanvas.classList.add('hidden');
+            pageResult.classList.remove('hidden');
+        } catch (error) {
+            alert(error.message || '分析時發生未知錯誤。');
+        } finally {
+            pageLoading.classList.add('hidden');
+            submitBtn.disabled = false;
+            submitBtn.innerText = '分析我的作品';
+        }
+    }
+
+    submitBtn.addEventListener('click', submitArtworkForAnalysis);
 
     btnRepaint.addEventListener('click', () => {
         document.getElementById('art-title').value = ""; document.getElementById('art-inspiration').value = "";
