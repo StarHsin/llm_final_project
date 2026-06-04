@@ -301,7 +301,7 @@ app.add_middleware(
         "null",
         "http://localhost:8000",
         "http://127.0.0.1:8000",
-        "https://llm-final-project.pages.dev/",
+        "https://llm-final-project.pages.dev",
     ],
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
