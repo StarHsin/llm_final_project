@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>藝術科普小畫坊</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="page-home" class="page-container home-theme">
+        <div class="welcome-card">
+            <h1 class="main-title-welcome">歡迎來到</h1>
+            <h1 class="main-title-app">藝術科普小畫坊</h1>
+            <p class="subtitle">透過創作與藝術歷史產生連結</p>
+            <div class="img-container">
+                <img src="./image_da4773.png" alt="三步驟介紹" class="steps-img">
+            </div>
+            <div class="btn-container">
+                <img id="start-btn" src="./image_da4752.png" alt="現在就開始" class="start-img-btn">
+            </div>
+        </div>
+    </div>
+
+    <div id="page-canvas" class="page-container canvas-theme hidden">
+        
+        <div class="app-header">
+            <h1 class="header-title">creativate space</h1>
+            <p class="header-subtitle">A GREAT MASTERPIECE IS ABOUT TO BE BORN.</p>
+        </div>
+
+        <div class="workspace-layout">
+            
+            <div id="eraser-size-panel" class="eraser-left-sidebar hidden">
+                <div class="eraser-option" data-size="10"><div class="eraser-box size-s"></div></div>
+                <div class="eraser-option" data-size="20"><div class="eraser-box size-m"></div></div>
+                <div class="eraser-option" data-size="35"><div class="eraser-box size-l"></div></div>
+                <div class="eraser-option active" data-size="50"><div class="eraser-box size-xl"></div></div>
+            </div>
+
+            <div class="canvas-panel">
+                <canvas id="paintCanvas" width="900" height="600"></canvas>
+            </div>
+
+            <div class="sidebar-toolbox">
+                
+                <div class="two-column-row">
+                    <div class="tool-section compact">
+                        <div class="tool-grid-4">
+                            <button class="icon-tool-btn active" id="btn-pencil" title="鉛筆"><i class="fas fa-pencil-alt"></i></button>
+                            <button class="icon-tool-btn" id="btn-bucket" title="油漆桶"><i class="fas fa-fill-drip"></i></button>
+                            <button class="icon-tool-btn" id="btn-eraser" title="橡皮擦"><i class="fas fa-eraser"></i></button>
+                            <button class="icon-tool-btn" id="btn-picker" title="色彩挑選器"><i class="fas fa-eye-dropper"></i></button>
+                        </div>
+                        <div class="section-tag">工具</div>
+                    </div>
+
+                    <div class="tool-section compact">
+                        <div class="brush-dropdown-wrapper">
+                            <div class="brush-selector" id="brush-toggle">
+                                <i class="fas fa-paint-brush"></i>
+                                <span id="current-brush-text">經典筆刷 <i class="fas fa-chevron-down" style="font-size:10px;"></i></span>
+                            </div>
+                            <div class="brush-options hidden" id="brush-menu">
+                                <div class="brush-type-option active" data-type="classic"><i class="fas fa-paint-brush"></i> 經典筆刷</div>
+                                <div class="brush-type-option" data-type="calligraphy"><i class="fas fa-pen-nib"></i> 特色鋼筆</div>
+                                <div class="brush-type-option" data-type="airbrush"><i class="fas fa-spray-can"></i> 藝術噴槍</div>
+                                <div class="brush-type-option" data-type="crayon"><i class="fas fa-crayon"></i> 質感蠟筆</div>
+                            </div>
+                        </div>
+                        
+                        <div class="brush-size-slider-container">
+                            <label for="brush-size-input" class="slider-label">粗細: <span id="brush-size-val">5</span>px</label>
+                            <input type="range" id="brush-size-input" min="1" max="50" value="5" class="modern-slider">
+                        </div>
+
+                        <div class="history-grid">
+                            <button class="history-btn" id="btn-undo" title="上一步 (Ctrl+Z)"><i class="fas fa-undo"></i> 上一步</button>
+                            <button class="history-btn" id="btn-redo" title="下一步 (Ctrl+Y)"><i class="fas fa-redo"></i> 下一步</button>
+                        </div>
+                        <div class="section-tag">筆刷與歷史</div>
+                    </div>
+                </div>
+
+                <div class="tool-section">
+                    <div class="shapes-container">
+                        <div class="shapes-grid">
+                            <button class="shape-item active" data-shape="free">自由畫</button>
+                            <button class="shape-item" data-shape="line">╱ 直線</button>
+                            <button class="shape-item" data-shape="circle">○ 圓形</button>
+                            <button class="shape-item" data-shape="rect">□ 矩形</button>
+                            <button class="shape-item" data-shape="triangle">△ 三角形</button>
+                        </div>
+                    </div>
+                    <div class="section-tag">形狀</div>
+                </div>
+
+                <div class="tool-section">
+                    <div class="palette-wrapper">
+                        <div class="color-dots-matrix">
+                            <div class="dots-row">
+                                <div class="color-dot active" style="background: #000000;" data-color="#000000"></div>
+                                <div class="color-dot" style="background: #7F7F7F;" data-color="#7F7F7F"></div>
+                                <div class="color-dot" style="background: #880015;" data-color="#880015"></div>
+                                <div class="color-dot" style="background: #ED1C24;" data-color="#ED1C24"></div>
+                                <div class="color-dot" style="background: #FF7F27;" data-color="#FF7F27"></div>
+                                <div class="color-dot" style="background: #FFF200;" data-color="#FFF200"></div>
+                                <div class="color-dot" style="background: #22B14C;" data-color="#22B14C"></div>
+                                <div class="color-dot" style="background: #00A2E8;" data-color="#00A2E8"></div>
+                                <div class="color-dot" style="background: #3F48CC;" data-color="#3F48CC"></div>
+                                <div class="color-dot" style="background: #A349A4;" data-color="#A349A4"></div>
+                            </div>
+                            <div class="dots-row">
+                                <div class="color-dot" style="background: #FFFFFF;" data-color="#FFFFFF"></div>
+                                <div class="color-dot" style="background: #C3C3C3;" data-color="#C3C3C3"></div>
+                                <div class="color-dot" style="background: #B5E61D;" data-color="#B5E61D"></div>
+                                <div class="color-dot" style="background: #FFC90E;" data-color="#FFC90E"></div>
+                                <div class="color-dot" style="background: #EFE4B0;" data-color="#EFE4B0"></div>
+                                <div class="color-dot" style="background: #99D9EA;" data-color="#99D9EA"></div>
+                                <div class="color-dot" style="background: #7092BE;" data-color="#7092BE"></div>
+                                <div class="color-dot" style="background: #C8BFE7;" data-color="#C8BFE7"></div>
+                                <div class="color-dot" style="background: #FFC0CB;" data-color="#FFC0CB"></div>
+                            </div>
+                            <div class="edit-colors-button-row">
+                                <button id="edit-colors-trigger" class="edit-colors-btn" title="編輯色彩">
+                                    <div class="edit-colors-icon-bar"></div>
+                                    <span>編輯色彩</span>
+                                </button>
+                            </div>
+                        </div>
+                        <input type="color" id="native-color-picker" value="#000000" style="position:absolute;visibility:hidden;width:0;height:0;">
+                    </div>
+                    <div class="section-tag">色彩</div>
+                </div>
+
+                <div class="ai-meta-card">
+                    <div class="meta-field">
+                        <label>為這幅創作取個名字！</label>
+                        <input type="text" id="art-title" class="dark-input" placeholder="請輸入作品名稱...">
+                    </div>
+                    <div class="meta-field">
+                        <label>創作靈感</label>
+                        <textarea id="art-inspiration" class="dark-textarea" placeholder="寫下你的創作想法..."></textarea>
+                    </div>
+                    
+                    <button class="submit-to-ai-btn" id="submit-btn">分析我的作品</button>
+                    <button class="text-back-btn" id="back-home-btn">返回歡迎首頁</button>
+                    <button class="text-back-btn" id="clear-btn" style="color:#ff8888;margin-top:3px;font-weight:bold;">一鍵清空畫布</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="page-loading" class="loading-overlay hidden">
+        <div class="loading-content">
+            <h1 class="loading-text">藝術史和你的連結正在產生</h1>
+            <div class="spinner-wheel"></div>
+        </div>
+    </div>
+
+    <div id="page-result" class="page-container result-theme hidden">
+        <div class="app-header">
+            <h1 class="header-title">creativate space</h1>
+            <p class="header-subtitle">A GREAT MASTERPIECE IS ABOUT TO BE BORN.</p>
+        </div>
+
+        <div class="workspace-layout">
+            <div class="canvas-panel">
+                <canvas id="resultCanvasClone" width="900" height="600"></canvas>
+            </div>
+
+            <div class="result-sidebar">
+                <h1 class="result-main-title">風格分析</h1>
+                
+                <div class="analysis-card-body">
+                    <h3 class="analysis-art-title" id="display-art-title">《無題》</h3>
+                    <p class="analysis-subtitle">AI 鑑賞大師分析報告：</p>
+                    
+                    <div class="report-field">
+                        <span class="report-label">偵測畫派：</span>
+                        <span class="report-value" id="res-style">巴洛克風格 (Baroque)</span>
+                    </div>
+                    <div class="report-field">
+                        <span class="report-label">精神大師：</span>
+                        <span class="report-value" id="res-master">林布蘭 / 卡拉瓦喬</span>
+                    </div>
+                    
+                    <div class="report-field-block">
+                        <span class="report-label">深層科普歷史介紹：</span>
+                        <p class="report-text-p" id="res-history">載入中...</p>
+                    </div>
+                </div>
+
+                <div class="result-actions-group">
+                    <button class="action-btn-black" id="btn-generate-card">產生明信片</button>
+                    <button class="action-btn-black btn-outline" id="btn-repaint">再畫一幅</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="postcard-modal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <button id="close-modal-btn" class="modal-close-x">&times;</button>
+            <div id="postcard-print-area" class="postcard-container">
+                <div class="postcard-canvas-wrapper">
+                    <canvas id="postcardCanvasClone" width="900" height="600"></canvas>
+                </div>
+                <div class="postcard-footer">
+                    <p id="postcard-display-title">使用者取的畫名</p>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button id="btn-download-jpg" class="download-action-btn">
+                    <i class="fas fa-download"></i> 下載明信片 (JPG)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
