@@ -1,0 +1,167 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+    min-height: 100vh;
+    background-color: #C0C0C0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden { display: none !important; }
+
+/* 歡迎首頁 */
+body:has(.home-theme) { background-color: #FEF5C8; }
+.welcome-card { text-align: center; }
+.main-title-welcome { font-size: 44px; margin-bottom: 0; color: #000; }
+.main-title-app { font-size: 60px; margin-top: 5px; letter-spacing: 2px; color: #000; }
+.subtitle { font-size: 24px; text-align: right; max-width: 850px; margin: 0 auto 30px auto; font-weight: bold; }
+.steps-img { width: 100%; max-width: 850px; border-radius: 15px; }
+.start-img-btn { cursor: pointer; width: 300px; transition: transform 0.1s; }
+.start-img-btn:hover { transform: scale(1.04); }
+
+/* 主工作區配置 */
+.app-header { text-align: center; margin-bottom: 10px; color: #333333; }
+.header-title { font-family: 'Georgia', serif; font-style: italic; font-size: 42px; margin: 0; }
+.header-subtitle { letter-spacing: 3px; font-size: 11px; margin-top: 4px; font-weight: bold; }
+
+.workspace-layout { display: flex; justify-content: center; align-items: stretch; gap: 20px; width: 1320px; position: relative; }
+
+/* 【設計圖還原】左側經典橡皮擦尺寸面版外框 */
+.eraser-left-sidebar {
+    width: 50px;
+    background: #E0E0E0;
+    border: 2px inset #FFF;
+    border-radius: 4px;
+    padding: 8px 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    align-self: center;
+}
+.eraser-option {
+    width: 40px;
+    height: 40px;
+    border: 1px solid transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.eraser-option:hover {
+    background: #CCE4F7;
+    border: 1px solid #A2C5E8;
+}
+.eraser-option.active {
+    background: #98B8D8;
+    border: 1px inset #666;
+}
+/* 復刻舊版小畫家的正方形黑色橡皮擦示意圖 */
+.eraser-box {
+    background: #000000;
+}
+.size-s { width: 6px; height: 6px; }
+.size-m { width: 12px; height: 12px; }
+.size-l { width: 18px; height: 18px; }
+.size-xl { width: 24px; height: 24px; }
+
+.canvas-panel { background: #ffffff; border-radius: 40px; overflow: hidden; box-shadow: 0 12px 30px rgba(0,0,0,0.15); border: 4px solid #ffffff; display: flex; align-items: center; }
+#paintCanvas, #resultCanvasClone { display: block; background: #ffffff; width: 900px; height: 600px; }
+
+.sidebar-toolbox {
+    width: 360px; background: #F0F0F0; border: 1px solid #D0D0D0; padding: 12px; border-radius: 16px;
+    display: flex; flex-direction: column; gap: 10px; box-shadow: 0 6px 15px rgba(0,0,0,0.08); justify-content: space-between;
+}
+
+.tool-section { background: #FFFFFF; border: 1px solid #D2D3D4; border-radius: 8px; padding: 6px; display: flex; flex-direction: column; align-items: center; position: relative; }
+.tool-section.compact { flex: 1; min-height: 105px; justify-content: space-between; }
+.two-column-row { display: flex; gap: 10px; width: 100%; }
+
+.section-tag { font-size: 11px; color: #888888; margin-top: 4px; text-align: center; width: 100%; border-top: 1px dashed #E5E5E5; padding-top: 2px; }
+
+/* 工具網格 */
+.tool-grid-4 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; width: 100%; }
+.icon-tool-btn { background: #FFFFFF; border: 1px solid #CCCCCC; padding: 6px; font-size: 16px; cursor: pointer; border-radius: 4px; display: flex; justify-content: center; align-items: center; height: 32px; box-sizing: border-box; }
+.icon-tool-btn.active { background: #CCE4F7; border-color: #A2C5E8; color: #000; }
+
+/* 筆刷與樣式款式切換 */
+.brush-dropdown-wrapper { width: 100%; position: relative; }
+.brush-selector { background: #FFF; border: 1px solid #CCC; padding: 5px; border-radius: 4px; display: flex; justify-content: center; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; height: 32px; box-sizing: border-box; }
+.brush-options { position: absolute; top: 35px; left: 0; width: 100%; background: white; border: 1px solid #CCC; z-index: 110; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+.brush-type-option { padding: 8px 12px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; color: #333; }
+.brush-type-option:hover { background: #CCE4F7; }
+.brush-type-option.active { background: #E0EEFA; font-weight: bold; color: #000; }
+
+/* 粗細滑動桿樣式 */
+.brush-size-slider-container { width: 100%; padding: 2px 4px; text-align: left; box-sizing: border-box; }
+.slider-label { font-size: 11px; color: #444; font-weight: bold; display: block; margin-bottom: 2px; }
+.modern-slider { width: 100%; margin: 0; cursor: pointer; }
+
+.history-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; width: 100%; margin-top: 4px; }
+.history-btn { background: #FFFFFF; border: 1px solid #CCCCCC; font-size: 11px; cursor: pointer; border-radius: 4px; padding: 4px 2px; display: flex; align-items: center; justify-content: center; gap: 3px; }
+.history-btn:hover { background: #EDF3F9; }
+
+/* 形狀 */
+.shapes-container { width: 100%; }
+.shapes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; width: 100%; }
+.shape-item { background: #FFF; border: 1px solid #DDD; padding: 5px; font-size: 12px; cursor: pointer; text-align: center; border-radius: 3px; }
+.shape-item.active { background: #CCE4F7; border-color: #A2C5E8; font-weight: bold; }
+
+/* 色彩調色盤排版 */
+.color-dots-matrix { display: flex; flex-direction: column; gap: 4px; width: 100%; }
+.dots-row { display: flex; gap: 4px; width: 100%; justify-content: center; }
+.color-dot { width: 18px; height: 18px; border-radius: 50%; cursor: pointer; border: 1px solid #CCC; }
+.color-dot.active { border: 2px solid #000; transform: scale(1.1); }
+
+.edit-colors-button-row { width: 100%; display: flex; justify-content: center; margin-top: 6px; }
+.edit-colors-btn { background: #FFFFFF; border: 1px solid #CCCCCC; border-radius: 4px; padding: 4px 8px; display: flex; align-items: center; cursor: pointer; font-family: inherit; color: #000000; height: 32px; box-sizing: border-box; text-decoration: none; }
+.edit-colors-btn:hover { background: #EDF3F9; border-color: #B8D6FB; }
+.edit-colors-icon-bar { width: 16px; height: 16px; background: linear-gradient(to right, red, orange, yellow, green, blue, purple); margin-right: 6px; border: 1px solid #BBB; }
+.edit-colors-btn span { font-size: 13px; font-weight: normal; }
+
+/* 底部卡片 */
+.ai-meta-card { background: #505550; border-radius: 12px; padding: 12px; color: #FFFFFF; display: flex; flex-direction: column; gap: 8px; }
+.meta-field { display: flex; flex-direction: column; gap: 3px; }
+.meta-field label { font-size: 12px; color: #FFD700; font-weight: bold; }
+.dark-input, .dark-textarea { background: #3A3E3A; border: 1px solid #666; border-radius: 6px; padding: 6px 10px; color: #FFF; width: 100%; box-sizing: border-box; font-size: 13px; }
+.dark-textarea { height: 45px; resize: none; }
+.submit-to-ai-btn { background: #252525; color: #FFD700; border: 2px solid #FFD700; padding: 10px; border-radius: 20px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; }
+.submit-to-ai-btn:hover { background: #FFD700; color: #252525; }
+.text-back-btn { background: none; border: none; color: #DDDDDD; text-decoration: underline; cursor: pointer; font-size: 11px; }
+
+/* Loading */
+.loading-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(60, 60, 60, 0.85); display: flex; justify-content: center; align-items: center; z-index: 999; }
+.loading-content { text-align: center; color: white; }
+.loading-text { font-size: 32px; font-weight: bold; margin-bottom: 30px; }
+.spinner-wheel { width: 80px; height: 80px; border: 8px solid rgba(255, 255, 255, 0.2); border-left-color: #ffffff; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* 結果頁 */
+.result-sidebar { width: 360px; background: #D2D2D2; border: 1px solid #B5B5B5; padding: 20px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: space-between; }
+.result-main-title { font-size: 36px; font-weight: bold; margin: 0 0 15px 0; color: #1a1a1a; }
+.analysis-card-body { background: #EAEAEA; border-radius: 14px; padding: 14px; border: 1px solid #C5C5C5; flex-grow: 1; }
+.analysis-art-title { font-size: 18px; margin: 0 0 8px 0; color: #222; font-weight: bold; border-bottom: 2px solid #ccc; padding-bottom: 4px; }
+.analysis-subtitle { font-size: 12px; color: #666; margin: 0 0 12px 0; font-weight: bold; }
+.report-field { margin-bottom: 8px; font-size: 14px; }
+.report-label { font-weight: bold; color: #444; }
+.report-value { color: #000; font-weight: bold; }
+.report-text-p { font-size: 13px; color: #444; line-height: 1.5; margin: 5px 0 0 0; background: white; padding: 8px; border-radius: 8px; border: 1px solid #ddd; max-height: 180px; overflow-y: auto; }
+.result-actions-group { display: flex; flex-direction: column; gap: 8px; margin-top: 15px; }
+.action-btn-black { background: #000000; color: white; border: none; padding: 12px; border-radius: 25px; font-size: 15px; font-weight: bold; cursor: pointer; }
+.btn-outline { background: transparent; color: #000000; border: 2px solid #000000; }
+.btn-outline:hover { background: #000000; color: white; }
+
+/* 明信片 */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+.modal-box { position: relative; background: transparent; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+.modal-close-x { position: absolute; top: -10px; right: -40px; background: transparent; border: none; color: #ffffff; font-size: 36px; cursor: pointer; }
+.postcard-container { background-color: #FEF5C8; padding: 25px 25px 15px 25px; border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); width: 820px; box-sizing: border-box; text-align: center; }
+.postcard-canvas-wrapper { background: #ffffff; border-radius: 25px; overflow: hidden; border: 2px solid #ffffff; }
+#postcardCanvasClone { width: 100%; height: auto; display: block; }
+.postcard-footer { margin-top: 15px; }
+#postcard-display-title { font-size: 16px; font-weight: bold; color: #000000; margin: 0; }
+.download-action-btn { background-color: #000000; color: #ffffff; border: 2px solid #ffffff; padding: 10px 25px; font-size: 15px; font-weight: bold; border-radius: 25px; cursor: pointer; }
