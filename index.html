@@ -10,28 +10,42 @@
 <body>
 
     <div id="page-home" class="page-container home-theme">
-        <div class="welcome-card">
-            <h1 class="main-title-welcome">歡迎來到</h1>
-            <h1 class="main-title-app">藝術科普小畫坊</h1>
-            <p class="subtitle">透過創作與藝術歷史產生連結</p>
-            <div class="img-container">
-                <img src="./image_da4773.png" alt="三步驟介紹" class="steps-img">
-            </div>
-            <div class="btn-container">
-                <img id="start-btn" src="./image_da4752.png" alt="現在就開始6" class="start-img-btn">
+        <div class="classic-bg-wrapper">
+            <img src="S__55844912.jpg" alt="古典藝術背景" class="main-museum-bg">
+            
+            <div class="interactive-overlay-grid">
+                
+                <div class="center-badge-zone">
+                    <img id="home-center-badge" src="badge.png" alt="藝術科普小畫坊徽章" class="museum-element">
+                </div>
+
+                <div class="steps-cards-container">
+                    <div class="museum-card-item" id="card-step-1">
+                        <img id="img-step-1" src="1.png" alt="1.畫下一幅畫" class="museum-element card-img">
+                    </div>
+                    <div class="museum-card-item" id="card-step-2">
+                        <img id="img-step-2" src="2.png" alt="2.AI分析相似風格" class="museum-element card-img">
+                    </div>
+                    <div class="museum-card-item" id="card-step-3">
+                        <img id="img-step-3" src="3.png" alt="3.風格派系知識科普" class="museum-element card-img">
+                    </div>
+                </div>
+
+                <div class="start-action-zone">
+                    <img id="start-btn" src="start.png" alt="現在就開始" class="classic-start-btn">
+                </div>
+
             </div>
         </div>
     </div>
 
     <div id="page-canvas" class="page-container canvas-theme hidden">
-        
         <div class="app-header">
             <h1 class="header-title">creativate space</h1>
             <p class="header-subtitle">A GREAT MASTERPIECE IS ABOUT TO BE BORN.</p>
         </div>
 
         <div class="workspace-layout">
-            
             <div id="eraser-size-panel" class="eraser-left-sidebar hidden">
                 <div class="eraser-option" data-size="10"><div class="eraser-box size-s"></div></div>
                 <div class="eraser-option" data-size="20"><div class="eraser-box size-m"></div></div>
@@ -44,7 +58,6 @@
             </div>
 
             <div class="sidebar-toolbox">
-                
                 <div class="two-column-row">
                     <div class="tool-section compact">
                         <div class="tool-grid-4">
@@ -143,12 +156,10 @@
                         <label>創作心情（選填）</label>
                         <textarea id="art-inspiration" class="dark-textarea" placeholder="寫下你創作當下的心情..."></textarea>
                     </div>
-                    
                     <button class="submit-to-ai-btn" id="submit-btn">分析我的作品</button>
                     <button class="text-back-btn" id="back-home-btn">返回歡迎首頁</button>
                     <button class="text-back-btn" id="clear-btn" style="color:#ff8888;margin-top:3px;font-weight:bold;">一鍵清空畫布</button>
                 </div>
-
             </div>
         </div>
     </div>
@@ -173,38 +184,16 @@
 
             <div class="result-sidebar">
                 <h1 class="result-main-title">風格分析</h1>
-                
                 <div class="analysis-card-body">
                     <h3 class="analysis-art-title" id="display-art-title">《無題》</h3>
                     <p class="analysis-subtitle">AI 鑑賞大師分析報告：</p>
-                    
-                    <div class="report-field">
-                        <span class="report-label">偵測畫派：</span>
-                        <span class="report-value" id="res-style">巴洛克風格 (Baroque)</span>
-                    </div>
-                    <div class="report-field">
-                        <span class="report-label">時代背景：</span>
-                        <span class="report-value" id="res-era">載入中...</span>
-                    </div>
-                    <div class="report-field">
-                        <span class="report-label">精神大師：</span>
-                        <span class="report-value" id="res-master">林布蘭 / 卡拉瓦喬</span>
-                    </div>
-                    
-                    <div class="report-field-block">
-                        <span class="report-label">策展評論：</span>
-                        <p class="report-text-p" id="res-review">載入中...</p>
-                    </div>
-                    <div class="report-field-block">
-                        <span class="report-label">流派小知識：</span>
-                        <p class="report-text-p" id="res-history">載入中...</p>
-                    </div>
-                    <div class="report-field-block">
-                        <span class="report-label">藝術家名言：</span>
-                        <p class="report-text-p" id="res-quote">載入中...</p>
-                    </div>
+                    <div class="report-field"><span class="report-label">偵測畫派：</span><span class="report-value" id="res-style">巴洛克風格 (Baroque)</span></div>
+                    <div class="report-field"><span class="report-label">時代背景：</span><span class="report-value" id="res-era">載入中...</span></div>
+                    <div class="report-field"><span class="report-label">精神大師：</span><span class="report-value" id="res-master">林布蘭 / 卡拉瓦喬</span></div>
+                    <div class="report-field-block"><span class="report-label">策展評論：</span><p class="report-text-p" id="res-review">載入中...</p></div>
+                    <div class="report-field-block"><span class="report-label">流派小知識：</span><p class="report-text-p" id="res-history">載入中...</p></div>
+                    <div class="report-field-block"><span class="report-label">藝術家名言：</span><p class="report-text-p" id="res-quote">載入中...</p></div>
                 </div>
-
                 <div class="result-actions-group">
                     <button class="action-btn-black" id="btn-generate-card">產生明信片</button>
                     <button class="action-btn-black btn-outline" id="btn-repaint">再畫一幅</button>
@@ -217,18 +206,10 @@
         <div class="modal-box">
             <button id="close-modal-btn" class="modal-close-x">&times;</button>
             <div id="postcard-print-area" class="postcard-container">
-                <div class="postcard-canvas-wrapper">
-                    <canvas id="postcardCanvasClone" width="900" height="600"></canvas>
-                </div>
-                <div class="postcard-footer">
-                    <p id="postcard-display-title">使用者取的畫名</p>
-                </div>
+                <div class="postcard-canvas-wrapper"><canvas id="postcardCanvasClone" width="900" height="600"></canvas></div>
+                <div class="postcard-footer"><p id="postcard-display-title">使用者取的畫名</p></div>
             </div>
-            <div class="modal-actions">
-                <button id="btn-download-jpg" class="download-action-btn">
-                    <i class="fas fa-download"></i> 下載明信片 (JPG)
-                </button>
-            </div>
+            <div class="modal-actions"><button id="btn-download-jpg" class="download-action-btn"><i class="fas fa-download"></i> 下載明信片 (JPG)</button></div>
         </div>
     </div>
 
