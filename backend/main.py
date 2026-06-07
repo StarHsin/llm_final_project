@@ -74,6 +74,7 @@ STATIC_FILES = {
     "/index.html": PROJECT_ROOT / "index.html",
     "/script.js": PROJECT_ROOT / "script.js",
     "/style.css": PROJECT_ROOT / "style.css",
+    "/badge.png": PROJECT_ROOT / "badge.png",
     "/image_da4752.png": PROJECT_ROOT / "image_da4752.png",
     "/image_da4773.png": PROJECT_ROOT / "image_da4773.png",
 }
