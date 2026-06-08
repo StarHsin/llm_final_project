@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 工具與筆刷款式狀態
   let currentMode = "pencil";
   let currentSize = 5;
-  let eraserSize = 50; // 預設橡皮擦大小
+  let eraserSize = 50; // 左側面板預設橡皮擦基礎大小
   let currentColor = "#000000";
   let currentShape = "free";
   let currentBrushType = "classic"; // classic, calligraphy, airbrush, crayon
@@ -119,15 +119,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 橡皮擦方形擦拭法
+  // 橡皮擦方形擦拭法（💡【已修復】：連動右側筆刷滑桿粗細機制）
   function runEraser(x, y) {
     ctx.fillStyle = "#FFFFFF";
+    
+    // 將左側面板選定的基礎大小，乘以右側拉桿的放大比例（以預設 5px 為基準倍率）
+    let finalEraserSize = eraserSize * (currentSize / 5);
+    
     // 以滑鼠為中心點清除正方形區塊
     ctx.fillRect(
-      x - eraserSize / 2,
-      y - eraserSize / 2,
-      eraserSize,
-      eraserSize,
+      x - finalEraserSize / 2,
+      y - finalEraserSize / 2,
+      finalEraserSize,
+      finalEraserSize,
     );
   }
 
@@ -294,7 +298,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (window.location.protocol === "file:") {
       return "http://127.0.0.1:8000";
     }
-
     return "https://llm-final-project-x3y4.onrender.com";
   }
 
@@ -467,7 +470,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .querySelectorAll(".eraser-option")
         .forEach((o) => o.classList.remove("active"));
       opt.classList.add("active");
-      eraserSize = parseInt(opt.getAttribute("data-size")); // 動態改變正方形的擦除面積
+      eraserSize = parseInt(opt.getAttribute("data-size")); // 動態改變正方形的基礎擦除面積
     });
   });
 
@@ -502,7 +505,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   document.addEventListener("click", () => brushMenu.classList.add("hidden"));
 
-  // 【升級】筆刷粗細滑動拉桿
+  // 筆刷與橡皮擦粗細滑動拉桿
   const brushSizeInput = document.getElementById("brush-size-input");
   const brushSizeVal = document.getElementById("brush-size-val");
   brushSizeInput.addEventListener("input", (e) => {
