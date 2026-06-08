@@ -50,18 +50,38 @@ document.addEventListener("DOMContentLoaded", () => {
   // 工具與筆刷款式狀態
   let currentMode = "pencil";
   let currentSize = 5;
-  let eraserSize = 50; // 左側面板預設橡皮擦基礎大小
+  let eraserSize = 30; // 預設橡皮擦大小改成中等 (30px)
   let currentColor = "#000000";
   let currentShape = "free";
   let currentBrushType = "classic"; // classic, calligraphy, airbrush, crayon
 
-  // 偵測是否開啟左側橡皮擦控制面板
+  // 偵測並重組左側橡皮擦控制面板
   const eraserSizePanel = document.getElementById("eraser-size-panel");
+  
+  // 💡【核心注入】：用 JavaScript 直接在左側動態強制生成 5 種大小的經典方形按鈕！
+  if (eraserSizePanel) {
+    eraserSizePanel.innerHTML = `
+      <div class="eraser-option" data-size="10" title="超小"><div class="eraser-box" style="width:6px; height:6px; background:#000;"></div></div>
+      <div class="eraser-option" data-size="20" title="小"><div class="eraser-box" style="width:12px; height:12px; background:#000;"></div></div>
+      <div class="eraser-option active" data-size="30" title="中"><div class="eraser-box" style="width:18px; height:18px; background:#000;"></div></div>
+      <div class="eraser-option" data-size="50" title="大"><div class="eraser-box" style="width:26px; height:26px; background:#000;"></div></div>
+      <div class="eraser-option" data-size="80" title="超大"><div class="eraser-box" style="width:36px; height:36px; background:#000;"></div></div>
+    `;
+    
+    // 幫注入的 CSS 加上基礎排版樣式，確保 5 個按鈕垂直漂亮排列、且點擊時有高亮外框
+    eraserSizePanel.style.display = "flex";
+    eraserSizePanel.style.flexDirection = "column";
+    eraserSizePanel.style.alignItems = "center";
+    eraserSizePanel.style.justifyContent = "center";
+    eraserSizePanel.style.gap = "12px";
+    eraserSizePanel.style.padding = "10px 5px";
+  }
+
   function toggleEraserPanel(show) {
     if (show) {
-      eraserSizePanel.classList.remove("hidden");
+      if (eraserSizePanel) eraserSizePanel.classList.remove("hidden");
     } else {
-      eraserSizePanel.classList.add("hidden");
+      if (eraserSizePanel) eraserSizePanel.classList.add("hidden");
     }
   }
 
@@ -79,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.lineTo(x2, y2);
       ctx.stroke();
     } else if (currentBrushType === "calligraphy") {
-      // 特色鋼筆：運用多個平行斜角疊加，畫出中式與西式書法感
       ctx.lineWidth = 1;
       let widthTrack = currentSize;
       for (let i = -widthTrack / 2; i < widthTrack / 2; i += 0.5) {
@@ -89,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.stroke();
       }
     } else if (currentBrushType === "airbrush") {
-      // 藝術噴槍：在滑鼠移動的路徑周圍生成擴散星點
       let density = currentSize * 2;
       for (let i = 0; i < density; i++) {
         let angle = Math.random() * Math.PI * 2;
@@ -99,10 +117,9 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.fillRect(px, py, 1.5, 1.5);
       }
     } else if (currentBrushType === "crayon") {
-      // 質感蠟筆：利用半透明與稍微晃動的線條疊加，製造粉蠟筆顆粒感
       ctx.lineWidth = currentSize;
       ctx.lineCap = "round";
-      ctx.globalAlpha = 0.25; // 造成半透明疊加質感
+      ctx.globalAlpha = 0.25; 
       for (let i = 0; i < 3; i++) {
         ctx.beginPath();
         ctx.moveTo(
@@ -115,23 +132,19 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         ctx.stroke();
       }
-      ctx.globalAlpha = 1.0; // 還原透明度
+      ctx.globalAlpha = 1.0; 
     }
   }
 
-  // 橡皮擦方形擦拭法（💡【已修復】：連動右側筆刷滑桿粗細機制）
+  // 橡皮擦方形擦拭法（💡【已修復】：完美對應左側點選的 5 種固定大小）
   function runEraser(x, y) {
     ctx.fillStyle = "#FFFFFF";
-    
-    // 將左側面板選定的基礎大小，乘以右側拉桿的放大比例（以預設 5px 為基準倍率）
-    let finalEraserSize = eraserSize * (currentSize / 5);
-    
-    // 以滑鼠為中心點清除正方形區塊
+    // 直接使用全域變數中的變數大小，滑桿拉動不會干涉它
     ctx.fillRect(
-      x - finalEraserSize / 2,
-      y - finalEraserSize / 2,
-      finalEraserSize,
-      finalEraserSize,
+      x - eraserSize / 2,
+      y - eraserSize / 2,
+      eraserSize,
+      eraserSize,
     );
   }
 
@@ -215,7 +228,6 @@ document.addEventListener("DOMContentLoaded", () => {
       startX = e.offsetX;
       startY = e.offsetY;
     } else {
-      // 形狀繪製
       ctx.putImageData(snapshot, 0, 0);
       ctx.strokeStyle = currentColor;
       ctx.lineWidth = currentSize;
@@ -460,18 +472,17 @@ document.addEventListener("DOMContentLoaded", () => {
     currentMode = "eraser";
     clearToolActive();
     btnEraser.classList.add("active");
-    toggleEraserPanel(true); // 顯示左邊小畫家經典方塊選單
+    toggleEraserPanel(true); 
   });
 
-  // 監聽左側側邊欄 4 種經典方形橡皮擦大小選取
-  document.querySelectorAll(".eraser-option").forEach((opt) => {
-    opt.addEventListener("click", () => {
-      document
-        .querySelectorAll(".eraser-option")
-        .forEach((o) => o.classList.remove("active"));
-      opt.classList.add("active");
-      eraserSize = parseInt(opt.getAttribute("data-size")); // 動態改變正方形的基礎擦除面積
-    });
+  // 💡【完美綁定】：動態監聽剛剛注入生成的 5 種經典方形橡皮擦大小按鈕
+  document.getElementById("eraser-size-panel").addEventListener("click", (e) => {
+    const opt = e.target.closest(".eraser-option");
+    if (!opt) return;
+    
+    document.querySelectorAll(".eraser-option").forEach((o) => o.classList.remove("active"));
+    opt.classList.add("active");
+    eraserSize = parseInt(opt.getAttribute("data-size")); // 10, 20, 30, 50, 80px 
   });
 
   // 筆刷款式切換下拉選單
@@ -496,7 +507,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ` <i class="fas fa-chevron-down" style="font-size:10px;"></i>`;
       brushMenu.classList.add("hidden");
 
-      // 自動切回畫筆狀態
       currentMode = "pencil";
       clearToolActive();
       btnPencil.classList.add("active");
@@ -505,7 +515,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   document.addEventListener("click", () => brushMenu.classList.add("hidden"));
 
-  // 筆刷與橡皮擦粗細滑動拉桿
+  // 筆刷粗細滑動拉桿 (拉桿此時只控制畫筆，橡皮擦尺寸由左側 5 種按鈕死死鎖定)
   const brushSizeInput = document.getElementById("brush-size-input");
   const brushSizeVal = document.getElementById("brush-size-val");
   brushSizeInput.addEventListener("input", (e) => {
